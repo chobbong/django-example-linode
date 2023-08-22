@@ -1,29 +1,28 @@
+from django.db.models import Q
 from django.shortcuts import render
 from .models import PropertyData
-from django.http import JsonResponse
 
-# ######:8000/other/
-# Create your views here.
-def search_estate_data(request):
-    context = {}
-    if request.method == "POST":
-        keyword = request.POST.get('search_point')
-        results = PropertyData.objects.filter(시군구__icontains=keyword) | PropertyData.objects.filter(단지명__icontains=keyword)
-        context['results'] = results
+def search(request):
+    query = request.GET.get('query', '')
+    properties = []
+    locations = []  # 구글 지도에 표시할 위치 정보를 저장할 리스트
+    if query:
+        properties = PropertyData.objects.filter(Q(시군구__icontains=query) | Q(단지명__icontains=query))
+        print(properties.query)  # SQL 쿼리 출력
+        
+        for prop in properties:
+            print(prop)  # 각 결과값을 출력
+            location_data = {
+                'lat': prop.lat,
+                'lng': prop.lng,
+                'name': str(prop)  # 단지명 또는 시군구 이름을 표시하기 위해 사용
+            }
+            locations.append(location_data)
+
+    context = {
+        'properties': properties,
+        'locations': locations
+    }
+
     return render(request, 'other/search.html', context)
 
-def get_estate_data(request):
-    keyword = request.GET.get('keyword')
-    results = PropertyData.objects.filter(시군구__icontains=keyword) | PropertyData.objects.filter(단지명__icontains=keyword)
-    
-    data = []
-    for result in results:
-        data.append({
-            "lat": result.lat,
-            "lng": result.lng,
-            "시군구": result.시군구,
-            "단지명": result.단지명,
-            # 필요한 다른 필드들도 추가할 수 있습니다.
-        })
-
-    return JsonResponse(data, safe=False)

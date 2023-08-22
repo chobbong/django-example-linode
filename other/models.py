@@ -19,4 +19,4 @@ class PropertyData(models.Model):
      전세가율_60 = models.FloatField(verbose_name="전세가율-60%")
     
      def __str__(self):
-          return self.단지명
+          return f"{self.시군구} {self.단지명}"
