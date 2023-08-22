@@ -9,6 +9,9 @@ class Command(BaseCommand):
         parser.add_argument('csv_file', type=str, help='Path to the CSV file')
 
     def handle(self, *args, **kwargs):
+         # 모든 기존 데이터 삭제
+        PropertyData.objects.all().delete()
+        
         csv_file = kwargs['csv_file']
 
         # CSV 파일 읽기
