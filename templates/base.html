@@ -1,0 +1,33 @@
+<!-- templates/base.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>부동산 검색</title>
+    <!-- 필요한 CSS 라이브러리나 자체 스타일시트 링크를 추가할 수 있습니다. -->
+</head>
+<!-- CSS for Leaflet -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+<!-- JavaScript for Leaflet -->
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<body>
+    <header>
+        <!-- 헤더 내용 (예: 로고, 네비게이션 링크 등) -->
+    </header>
+
+    <main>
+        {% block content %}
+        <!-- 이곳에 각 페이지의 내용이 들어갑니다. -->
+        {% endblock %}
+    </main>
+
+    <footer>
+        <!-- 푸터 내용 (예: 저작권 정보, 연락처 등) -->
+    </footer>
+
+    <!-- 필요한 JavaScript 라이브러리나 자체 스크립트 링크를 추가할 수 있습니다. -->
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!-- other/templates/other/search.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>부동산 검색</h1>
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="search_point" placeholder="검색하고 싶은 주소를 입력하세요">
+        <button type="submit">검색</button>
+    </form>
+
+    <div id="map"></div>
+
+    <script>
+       // 지도 초기화
+    var map = L.map('map').setView([37.5665, 126.9780], 11);  // 기본 위치를 서울로 설정
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+    // 검색 버튼 클릭 시
+    document.querySelector('form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // 사용자가 입력한 키워드 가져오기
+        var keyword = document.querySelector('input[name="search_point"]').value;
+
+        // Ajax 요청
+        fetch(`/other/get_estate_data/?keyword=${keyword}`)
+            .then(response => response.json())
+            .then(data => {
+                // 결과로 받은 데이터를 지도에 핀으로 표시
+                data.forEach(item => {
+                    L.marker([item.lat, item.lng]).addTo(map)
+                        .bindPopup(`<strong>${item.시군구}</strong><br>${item.단지명}`)
+                        .openPopup();
+                });
+            });
+    });
+    </script>
+{% endblock %}
