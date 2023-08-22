@@ -1,13 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<form method="get" action="{% url 'search' %}">
-    <input type="text" name="query" placeholder="단지명을 입력하세요...">
-    <input type="submit" value="검색">
-</form>
+<div class="container mt-5"> <!-- 여기에 mt-5 클래스를 추가하여 상단에 여백을 줍니다. -->
+  <h1 class="text-center mb-4">역전세 여부 확인하기</h1> <!-- 제목 추가 -->
 
-<!-- Google Maps Container -->
-<div id="map" style="height: 500px;"></div>
+  <div class="row h-100 justify-content-center align-items-center" style="margin-top: 50px;">
+      <form method="get" action="{% url 'search' %}" class="w-50">
+          <div class="input-group">
+              <input type="text" class="form-control search-box" name="query" placeholder="단지명을 입력하세요...">
+              <div class="input-group-append">
+                  <button type="submit" class="btn btn-primary">검색</button>
+              </div>
+          </div>
+      </form>
+  </div>
+</div>
+
+<div class="container">
+  <!-- Google Maps Container -->
+  <div id="map" style="height: 500px;"></div> 
+</div>
+
 
 <script>
 // Your modified JavaScript for Google Maps
