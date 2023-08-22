@@ -25,6 +25,7 @@
 <script>
 // Your modified JavaScript for Google Maps
 let map;
+let currentInfoWindow = null;  // 현재 활성화된 InfoWindow를 추적하기 위한 변수
 
 function initMap() {
   const locations = {{ locations|safe }}; // Get data from Django
@@ -59,7 +60,14 @@ function initMap() {
        const infoWindow = new google.maps.InfoWindow({
          content: contentString
        });
-       infoWindow.open(map, marker);
+       // 이전 InfoWindow가 열려있으면 닫습니다.
+       if (currentInfoWindow) {
+        currentInfoWindow.close();
+      }
+
+      // 새로운 InfoWindow를 연 후, 그 참조를 currentInfoWindow에 저장합니다.
+      infoWindow.open(map, marker);
+      currentInfoWindow = infoWindow;
      });
    });
  }
