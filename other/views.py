@@ -1,6 +1,6 @@
 from django.db.models import Q
 from django.shortcuts import render
-from .models import PropertyData
+from .models import PropertyData, SearchCounter
 
 def search(request):
     query = request.GET.get('query', '')
@@ -16,7 +16,12 @@ def search(request):
 
         properties = PropertyData.objects.filter(q_objects)
         print(properties.query)  # SQL 쿼리 출력
-
+        
+        # 카운터 증가
+        counter, created = SearchCounter.objects.get_or_create(name="search_count")
+        counter.count += 1
+        counter.save()
+        
         for prop in properties:
             print(prop)  # 각 결과값을 출력
             location_data = {

@@ -20,3 +20,7 @@ class PropertyData(models.Model):
     
      def __str__(self):
           return f"{self.시군구} {self.단지명}"
+     
+class SearchCounter(models.Model):
+    name = models.CharField(max_length=50, default="search_count")
+    count = models.PositiveIntegerField(default=0)
