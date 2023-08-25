@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'stock.apps.StockConfig',
     'other.apps.OtherConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -120,10 +121,15 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')
 STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
+
+# Django가 static 파일을 찾을 수 있도록 설정
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "stock/static"),
+]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
